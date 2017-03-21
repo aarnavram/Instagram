@@ -24,24 +24,24 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onSignInPressed(_ sender: Any) {
+        
+        
+        PFUser.logInWithUsername(inBackground: self.usernameField.text!, password: self.passwordField.text!) { (user: PFUser?, error: Error?) in
+            if user != nil {
+                self.performSegue(withIdentifier: "toMainPage", sender: nil)
+            }
+        }
+        
     }
     
     @IBAction func onSignUpPressed(_ sender: Any) {
         
-        var newUser = PFUser()
+        let newUser = PFUser()
         
         newUser.username = self.usernameField.text!
         newUser.password = self.passwordField.text!
         print(newUser.username)
         print(newUser.password)
-        
-        newUser.signUpInBackground { (bool: Bool, error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                self.alertMessage(title: "Congratulations", string: "Now Login")
-            }
-        }
         
         if let usernameField = usernameField {
             if usernameField.text! != "" {

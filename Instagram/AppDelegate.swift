@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         Parse.initialize(with: ParseClientConfiguration(block: { (configuration :ParseMutableClientConfiguration) in
             configuration.applicationId = "Instagram"
@@ -25,6 +27,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             configuration.server = "https://ig-clone-app.herokuapp.com/parse"
             
         }))
+        
+        
+        
+        if PFUser.current() != nil {
+            let navController = storyboard.instantiateViewController(withIdentifier: "nav") as! UINavigationController
+            
+            window?.rootViewController = navController
+            window?.makeKeyAndVisible()
+        } else {
+            
+            window?.rootViewController = storyboard.instantiateInitialViewController()
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "logout"), object: nil, queue: OperationQueue.main) { (Notification) in
+            self.window?.rootViewController = storyboard.instantiateInitialViewController()
+        }
         
 
         
