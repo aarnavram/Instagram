@@ -18,6 +18,7 @@ class PostViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     var show:Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.textfieldInput.textColor = UIColor.white
         self.view.backgroundColor = UIColor.black
         // Do any additional setup after loading the view.
     }
